@@ -1,0 +1,14 @@
+<idu_config version="1.7">
+    <idutype>fancoilelectric</idutype>
+    <iduairflow/>
+    <heatoffdelay/>
+    <auxheatlocktmp>20</auxheatlocktmp>
+    <dehumdrain>on</dehumdrain>
+    <mincfm/>
+    <maxcfm/>
+    <absmincfm/>
+    <absmaxcfm/>
+    <mincfmenable/>
+    <maxcfmenable/>
+    <lowheatrise/>
+</idu_config>

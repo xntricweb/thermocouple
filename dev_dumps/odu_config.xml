@@ -1,0 +1,17 @@
+<odu_config version="1.7">
+    <odutype>proteushp</odutype>
+    <oducoolafl>eff350</oducoolafl>
+    <oduheatafl>eff350</oduheatafl>
+    <dehumafl>normal</dehumafl>
+    <coollocktemp>off</coollocktemp>
+    <heatlocktemp>5</heatlocktemp>
+    <quietshift/>
+    <defrostbackup>on</defrostbackup>
+    <defrostInt>60</defrostInt>
+    <usermincoolstage>1</usermincoolstage>
+    <usermaxcoolstage>5</usermaxcoolstage>
+    <userminheatstage>1</userminheatstage>
+    <usermaxheatstage>5</usermaxheatstage>
+    <usercoolinglatch>75</usercoolinglatch>
+    <userheatinglatch>35</userheatinglatch>
+</odu_config>

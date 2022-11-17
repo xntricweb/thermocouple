@@ -1,0 +1,43 @@
+<dealer_config version="1.7">
+    <cfgem>F</cfgem>
+    <cfgauto>on</cfgauto>
+    <cfgtype>heatcool</cfgtype>
+    <cfgdead>2</cfgdead>
+    <cfgchgover>30</cfgchgover>
+    <cfgrecovery>3</cfgrecovery>
+    <filterinterval>3200</filterinterval>
+    <odtempoff>0</odtempoff>
+    <humoff>0</humoff>
+    <serviceInterval>0</serviceInterval>
+    <rmairtempsense>local</rmairtempsense>
+    <maxhtsp>88</maxhtsp>
+    <minclsp>52</minclsp>
+    <maxeqpchr>4</maxeqpchr>
+    <hrv>disabled</hrv>
+    <reversevalve>on</reversevalve>
+    <fanwithw>off</fanwithw>
+    <timebwfuel>15</timebwfuel>
+    <cfghumid>off</cfghumid>
+    <cfgpgm>on</cfgpgm>
+    <zonesused>1</zonesused>
+    <cfgzoning>off</cfgzoning>
+    <cfgzoning_setting>off</cfgzoning_setting>
+    <zoneairflwcntrl>off</zoneairflwcntrl>
+    <dampertype>power</dampertype>
+    <dampertiming>1</dampertiming>
+    <lasheatlckout>180</lasheatlckout>
+    <lascoollckout>45</lascoollckout>
+    <zonebypass>off</zonebypass>
+    <zones>
+        <zone id="1">
+            <tempoffset>0</tempoffset>
+            <zoneweight>0</zoneweight>
+            <airflowlimit>0</airflowlimit>
+        </zone>
+        <zone id="2"/>
+        <zone id="3"/>
+        <zone id="4"/>
+        <zone id="5"/>
+        <zone id="6"/>
+    </zones>
+</dealer_config>

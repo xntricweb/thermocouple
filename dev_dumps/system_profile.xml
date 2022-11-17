@@ -1,0 +1,37 @@
+<system_profile version="1.7">
+    <pin>7E6735</pin>
+    <brand>tempstar</brand>
+    <model>TSTAT0201CW</model>
+    <serial>3717N010092</serial>
+    <firmware>CESR131611-6.10</firmware>
+    <indoorModel>-----</indoorModel>
+    <indoorSerial>-----</indoorSerial>
+    <iduversion>---</iduversion>
+    <idustages>1</idustages>
+    <iducapacity>15</iducapacity>
+    <outdoorModel>-----</outdoorModel>
+    <outdoorSerial>-----</outdoorSerial>
+    <oduversion>---</oduversion>
+    <oducapacity>48</oducapacity>
+    <routerMac>FA3441A26372</routerMac>
+    <zones>
+        <zone id="1">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+        <zone id="2">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+        <zone id="3">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+        <zone id="4">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+        <zone id="5">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+        <zone id="6">
+            <zoneSensor>sensor</zoneSensor>
+        </zone>
+    </zones>
+</system_profile>

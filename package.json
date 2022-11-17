@@ -1,0 +1,44 @@
+{
+  "name": "carrier-hub",
+  "version": "1.0.0",
+  "description": "A local hub implementation for carrier thermostats.",
+  "main": "src/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "bin": {
+    "carrier-hub": "bin/carrier-hub"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xntricweb/carrier-hub.git"
+  },
+  "keywords": [
+    "carrier",
+    "thermostat"
+  ],
+  "author": "xntricweb@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xntricweb/carrier-hub/issues"
+  },
+  "homepage": "https://github.com/xntricweb/carrier-hub#readme",
+  "devDependencies": {
+    "chai": "^4.3.3",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^8.3.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.3.1",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2",
+    "route-parser": "0.0.5",
+    "ws": "^7.4.4",
+    "xml2js": "^0.4.23"
+  }
+}

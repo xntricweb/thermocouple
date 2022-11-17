@@ -1,0 +1,182 @@
+<system version="1.7">
+    <config>
+        <mode>heat</mode>
+        <fan>auto</fan>
+        <zones>
+            <zone id="1">
+                <name>Zone 1</name>
+                <hold>off</hold>
+                <program>
+                    <day id="1">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="2">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="3">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="4">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="5">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="6">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                    <day id="7">
+                        <period id="1">
+                            <time>06:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="2">
+                            <time>08:30</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="3">
+                            <time>17:00</time>
+                            <htsp>69</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                        <period id="4">
+                            <time>23:45</time>
+                            <htsp>68</htsp>
+                            <clsp>74</clsp>
+                        </period>
+                    </day>
+                </program>
+            </zone>
+            <zone id="2"/>
+            <zone id="3"/>
+            <zone id="4"/>
+            <zone id="5"/>
+            <zone id="6"/>
+        </zones>
+        <timeFormat>12</timeFormat>
+        <dst>on</dst>
+        <volume>low</volume>
+        <soundType>beep</soundType>
+        <scrLockout>off</scrLockout>
+        <scrLockoutCode>0000</scrLockoutCode>
+        <humSetpoint>45</humSetpoint>
+        <dehumSetpoint>50</dehumSetpoint>
+        <blight>30</blight>
+    </config>
+</system>

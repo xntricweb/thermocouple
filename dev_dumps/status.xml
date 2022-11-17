@@ -1,0 +1,28 @@
+<status version="1.7">
+    <oat>17</oat>
+    <mode>heat</mode>
+    <fan>auto</fan>
+    <filtrlvl>0</filtrlvl>
+    <servicelvl>0</servicelvl>
+    <rh>41</rh>
+    <lat>na</lat>
+    <day>1</day>
+    <zones>
+        <zone id="1">
+            <rt>68.0</rt>
+            <hold>off</hold>
+            <htsp>69</htsp>
+            <clsp>74</clsp>
+            <period>2</period>
+            <damper/>
+            <heaticon>on</heaticon>
+            <coolicon>off</coolicon>
+            <fanicon>on</fanicon>
+        </zone>
+        <zone id="2"/>
+        <zone id="3"/>
+        <zone id="4"/>
+        <zone id="5"/>
+        <zone id="6"/>
+    </zones>
+</status>
