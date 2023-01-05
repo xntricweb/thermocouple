@@ -1,6 +1,5 @@
-const { parseStringPromise } = require('xml2js');
 
-const log = require('debug')('store');
+const log = require('debug')('xweb:store');
 
 const {readFile, writeFile} = require('fs').promises;
 
@@ -34,7 +33,7 @@ function getBase(path, base, pathIncludesTarget=true) {
     // no path, result is root.
     if (typeof(path)=='string') path = path.split('/');
     if (Array.isArray(path)) path = path.filter(Boolean);
-    else throw new TypeError("Parts must be an array.");
+    else throw new TypeError(`Path must be a string or array: ${path}`);
 
     if (!base) base = {};
     
@@ -91,7 +90,7 @@ function update(ev, key, base, data) {
 
     ev.newValue = data;
 
-    return true;
+    return ev.oldValue !== ev.newValue;
 }
 
 function *apply(key, base, data, {
@@ -219,11 +218,11 @@ class Store {
     }
 
     load(path) {
+        this._path = path;
         this._storePromise = readFile(path)
         .then(parseStore, recoverStore);
-        this._path = path;
 
-        return this;
+        return this._storePromise;
     }
     
     async post(path, data) {
@@ -231,7 +230,11 @@ class Store {
 
         let [base, target, basePath] = getBase(path, store);
         
-        return apply(target, base, data, {pathPrefix: basePath });
+        let changes = apply(target, base, data, {pathPrefix: basePath });
+
+        this._processSubs(changes);
+
+        return changes;
     }
 
     async postNow(save, path, data) {
@@ -263,12 +266,68 @@ class Store {
 
     async save() {
         if (this._path) {
-            await writeFile(this._path, JSON.stringify(await this._storePromise));
+            await writeFile(this._path, JSON.stringify(await this._storePromise, 1));
         } else {
             throw new Error('Path not set for export.')
         }
 
         return this;
+    }
+
+    _processSubs(changes) {
+        if (!this._subs && !this._rSubs) return;
+        
+        for(let change of changes) {
+            log('processing subscriptions for %s "%s"', change.type, change.path);
+            if (this._subs) {
+                let subs = this._subs[change.path];
+                if (subs) {
+                    subs.forEach(callback => {
+                        log('notifying %s of change', callback.name);
+                        callback(change);
+                    })
+                }
+            }
+
+            if (this._rSubs) {
+                this._rSubs.forEach(sub => {
+                    let match = change.path.match(sub.path);
+                    if (match) {
+                        log('notifying %s of change', sub.callback.name);
+                        sub.callback({ ...change, match: match });
+                    }
+                });
+            }
+        }
+    }
+
+    subscribe(path, callback) {
+        log('registering subscription for %s to %s', path, callback.name);
+        if (path instanceof RegExp) {
+            if (!this._rSubs) this._rSubs = [];
+            this._rSubs.push({ path, callback });
+        } else {
+            if (!this._subs) this._subs = {};
+            if (!this._subs[path]) this._subs[path] = [];
+            this._subs[path].push(callback);
+        }
+
+        return callback;
+    }
+
+    unsubscribe(path, callback) {
+        let index = -1;
+        if (path instanceof RegExp) {
+            index = this._rSubs.findIndex(sub => {
+                return sub.path === path && sub.callback === callback
+            });
+        } else if (this._subs && this._subs[path]) {
+            index = this._subs[path].indexOf(callback);
+        }
+
+        if (index < 0) return;
+
+        this._subs[path].splice(index, 1);
     }
 }
 

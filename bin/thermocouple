@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+
+const express = require('express');
+const http = require('http');
+const Mqtt = require('mqtt');
+const { EventEmitter } = require('events');
+const DeviceServer = require('../src/device-server');
+const Store = require('../src/store');
+const entityBuilder = require('../src/entity_builder.js');
+
+const debug = require('debug');
+const path = require('path');
+const { parseArgs } = require('util');
+const { strict } = require('assert');
+const log = debug('thermocouple:bin');
+const errorLog = debug('thermocouple:error');
+errorLog.color = 1;
+
+const eventBus = new EventEmitter();
+eventBus.on('error', function(error) {
+    if (error.nonFatal) {
+        log('encountered non fatal error: %s', error.message);
+        return;
+    }
+
+    log(error);
+    process.exit(error.code ?? -1);
+});
+
+const options = {
+    config: {
+        type: 'string',
+        short: 'c',
+        help: 'The path/filename of the config file.',
+        default: './config.json',
+    }, 
+    db: {
+        type: 'string',
+        default: './store.json',
+        help: 'The path/filename of the datastore file.',
+    },
+    'mqtt-host': {
+        type: 'string',
+        short: 'h',
+        default: 'homeassistant.local',
+        help: 'The MQTT hostname.',
+    },
+    'mqtt-username': {
+        type: 'string',
+        short: 'u',
+        help: 'The MQTT username.',
+        required: true,
+    },
+    'mqtt-password': {
+        type: 'string',
+        short: 'p',
+        help: 'The MQTT password.',
+        required: true,
+    },
+    help: {
+        type: 'boolean',
+        short: 'h',
+        default: false,
+        help: 'Prints help on command line parameters.',
+    }
+}
+
+
+const { values, positionals } = parseArgs({options, strict: true});
+
+if (values.help) {
+    console.log('printing help\n');
+
+    Object.entries(options).forEach(([key, entry]) => {
+        console.log(`\t--${key}${
+            entry.short? `, -${entry.short}`: ''
+        }\t\t${entry.help}${
+            entry.default? `[${entry.default}]`: ''
+        }\n`);
+    });
+    return;
+}
+
+
+const config = {
+    store: { path: values.db },
+    mqtt: {
+        host: values['mqtt-host'],
+        username: values['mqtt-username'],
+        password: values['mqtt-password'],
+    }
+}
+
+if (!config.mqtt?.username) {
+    return console.log('MQTT Username is required { -u "username" }');
+}
+if (!config.mqtt?.password) {
+    return console.log('MQTT Password is required { -p "password" }')
+}
+
+start(config);
+
+
+async function start(config) {
+    const store = await initStore({
+        ...config.store
+    });
+
+    const { app } = startWebServer({
+        port: 80,
+        ...config.webServer
+    });
+
+    
+    const deviceServer = startDeviceServer({
+        app,
+        store,
+        ...config.deviceServer
+    })
+
+    const client = startMqtt(config.mqtt);
+
+    entityBuilder({store, client, deviceServer});
+}
+
+async function initStore(config) {
+    log('initializing store @ %s', path.resolve(config.path));
+    const store = new Store({store: config.store});
+
+    if (config.path) {
+        await store.load(config.path);
+    }
+
+    return store;
+}
+
+function startWebServer(config) {
+    log('starting webserver on port %s', config.port);
+    const app = express();
+    const server = http.Server(app);
+
+    server.on('error', (error) => handleWebServerError(error));
+    server.listen(config, () => log('web server started on port %s', config.port));
+
+    return {app, server};
+}
+
+function startDeviceServer(config) {
+    log('starting device server');
+    const deviceServer = new DeviceServer(config);
+
+    return deviceServer;
+}
+
+function startMqtt(config) {
+    const log = debug('thermocouple:mqtt');
+    const errCounters = {
+        
+    }
+
+    log('connecting to mqtt server @ %s', config.host ?? '[default]');
+    const client = Mqtt.connect(config);
+    client.on('connect', () => {
+        log('mqtt connected to %s', config.host);
+    });
+    client.on('message', (msg) => log('recieved message: %s', msg));
+    client.on('error', (error) => {
+        if (error.code === 'ENOTFOUND') {
+            log('ERROR: DNS resolution failed for %s', error.hostname);
+            exit(error.errno);
+        }
+        // if (error.code === 'ECONNREFUSED') {
+        //     log('ERROR:', error.message);
+        //     return;
+        // }
+        log('%O', error);
+        eventBus.emit(error);
+        throw error;
+    });
+
+    return client;
+}
+
+function handleMqttError(error) {
+    eventBus.emit(error);
+}
+
+function handleWebServerError(error) {
+    eventBus.emit(error);
+}
+
+function exit(code) {
+    process.exit(code);
+}

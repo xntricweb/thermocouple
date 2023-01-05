@@ -207,4 +207,87 @@ describe('Store', function (){
             // expect(readFile(testPath)).to.eventually.have.property('code', 'ENOENT');
         })
     });
+
+    describe('subscription', function() {
+        const Sinon = require('sinon');
+        require('should-sinon');
+        const data = {
+            devices: {
+                '123': {
+                    profile: {
+                        name: 'test entry',
+                        serial: '123',
+                    }
+                },
+                '124': {
+                    profile: {
+                        name: 'test entry',
+                        serial: '123',
+                    }
+                },
+                '125': {
+                    profile: {
+                        name: 'test entry',
+                        serial: '123',
+                    }
+                },
+            }
+        };
+        
+        it('should allow subscribing to changes with a string path', async function() {
+            const store = new Store({store: {...data}});
+            const successCallback = Sinon.fake();
+            const badCallback = Sinon.fake();
+            
+            store.subscribe('/devices/123/profile/test_entry', successCallback);
+            store.subscribe('/devices/123/profile/name', badCallback);
+
+            await store.post('/devices/123/profile/test_entry', 'test_value');
+            successCallback.should.have.been.calledOnce();
+            successCallback.should.have.been.calledWithMatch({newValue: 'test_value'});
+
+            await store.post('/devices/123/profile/test_entry', 'test_value');
+            successCallback.should.have.been.calledOnce();
+
+            await store.post('/devices/123/profile/test_entry', 'test_value_changed');
+            successCallback.should.have.been.calledTwice();
+            successCallback.should.have.been.calledWithMatch({newValue: 'test_value_changed'});
+            badCallback.should.not.have.been.called();
+        });
+        
+        it('should allow subscribing to changes with a regular expression path', async function() {
+            const store = new Store({store: {...data}});
+            const successCallback1 = Sinon.fake();
+            const successCallback2 = Sinon.fake();
+            const badCallback = Sinon.fake();
+            
+            store.subscribe(/\/devices\/(.*?)\/profile\/test_entry/, successCallback1);
+            store.subscribe(/\/devices\/12[34]\/profile\/test_entry/, successCallback2);
+            store.subscribe(/\/devices\/profile\/test_entry/, badCallback);
+
+            await store.post('/devices/123/profile/test_entry', 'test_value');
+            successCallback1.should.have.callCount(1);
+            successCallback2.should.have.callCount(1);
+            successCallback1.should.have.been.calledWithMatch({newValue: 'test_value'});
+            
+            expect(successCallback1.firstCall.args[0].match)
+                .to.include('123');
+            expect(successCallback2.firstCall.args[0].match)
+                .to.not.include('123');
+
+            await store.post('/devices/124/profile/test_entry', 'test_value');
+            successCallback1.should.have.callCount(2);
+            successCallback2.should.have.callCount(2);
+
+            await store.post('/devices/125/profile/test_entry', 'test_value');
+            successCallback1.should.have.callCount(3);
+            successCallback2.should.have.callCount(2);
+
+            await store.post('/devices/126/profiles/test_entry', 'test_value');
+            successCallback1.should.have.callCount(3);
+            successCallback2.should.have.callCount(2);
+
+            badCallback.should.not.have.been.called();
+        });
+    })
 });

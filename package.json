@@ -1,13 +1,13 @@
 {
   "name": "carrier-hub",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A local hub implementation for carrier thermostats.",
   "main": "src/index.js",
   "directories": {
     "test": "tests"
   },
   "bin": {
-    "carrier-hub": "bin/carrier-hub"
+    "thermocouple": "bin/thermocouple"
   },
   "scripts": {
     "test": "mocha test"
@@ -29,16 +29,19 @@
   "devDependencies": {
     "chai": "^4.3.3",
     "chai-as-promised": "^7.1.1",
-    "mocha": "^8.3.1"
+    "mocha": "^8.4.0",
+    "mock-require": "^3.0.3",
+    "should-sinon": "^0.0.6",
+    "sinon": "^15.0.1",
+    "sinon-chai": "^3.7.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "debug": "^4.3.1",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
-    "pug": "^3.0.2",
+    "mqtt": "^4.3.7",
     "route-parser": "0.0.5",
-    "ws": "^7.4.4",
     "xml2js": "^0.4.23"
   }
 }
