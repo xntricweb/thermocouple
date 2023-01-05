@@ -28,6 +28,11 @@ eventBus.on('error', function(error) {
 });
 
 const options = {
+    'device-availability': {
+        type: 'string',
+        default: 'enabled',
+        help: 'Device availability mode. [enabled, disabled]'
+    },
     config: {
         type: 'string',
         short: 'c',
@@ -83,6 +88,9 @@ if (values.help) {
 
 
 const config = {
+    device: {
+        availability: values['device-availability'],
+    },
     store: { path: values.db },
     mqtt: {
         host: values['mqtt-host'],

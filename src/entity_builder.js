@@ -1,7 +1,7 @@
 const { Sensor, Climate, CommandableSensor, isOn } = require("./mqtt_entities")
 const log = require('debug')('thermocouple:entityBuilder');
 
-module.exports = async function ({store, client, deviceServer}) {
+module.exports = async function ({config, store, client, deviceServer}) {
     log('initializing entity builder');
     const entities = [];
 
@@ -18,24 +18,14 @@ module.exports = async function ({store, client, deviceServer}) {
         }
     });
 
-    // store.subscribe(/^\/devices\/(.*?)\/(device-status\/.*)$/, async (change) => {
-    //     let path = change.match[0];
-    //     let deviceId = change.match[1];
-    //     let statePath = change.match[2];
-
-
-    // });
-
-
-    function createDevice(deviceId, data) {
-
-    }
-
     const availabilityTimeout = 60 * 1000;
 
     const availabilityTimers = {};
     function resetAvailabilityTimer(deviceId) {
-        return;
+        if (config.device.availability === 'disabled') {
+            return;
+        }
+
         log(`resetting availability timer for  ${deviceId}`);
 
         clearTimeout(availabilityTimers[deviceId]);
@@ -136,16 +126,6 @@ module.exports = async function ({store, client, deviceServer}) {
                     );
                 }
             }),
-            // new CommandableSensor({
-            //     client, store,
-            //     name: 'Hold',
-            //     stateTopic: `${deviceServer.deviceStateDomain}/zones/zone[0]/hold`,
-            //     commandTopic: (value) => setConfig()
-            // }),
-            // new Climate({
-            //     client, store,
-            //     name: 'Climate Control',
-            // })
         ];
     }
 
