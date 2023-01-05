@@ -1,2 +1,2 @@
-# carrier-hub
-Local hub for carrier thermostats.
+# thermocouple
+Local hub for My Observer thermostat.
