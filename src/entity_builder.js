@@ -164,10 +164,13 @@ module.exports = async function ({config, store, client, deviceServer}) {
 
     const devices = await store.get('/devices');
 
-    await Promise.all(Object.entries(devices).map(async ([id, device]) => {
-        log(`Registering known device ${id}`);
-        entities.push(...await initEntities(id, device));
-    }));
+    if (devices) {
+
+        await Promise.all(Object.entries(devices).map(async ([id, device]) => {
+            log(`Registering known device ${id}`);
+            entities.push(...await initEntities(id, device));
+        }));
+    }
 
     return entities;
 }

@@ -41,7 +41,7 @@ const options = {
     }, 
     db: {
         type: 'string',
-        default: './store.json',
+        default: './cache/store.json',
         help: 'The path/filename of the datastore file.',
     },
     'mqtt-host': {
@@ -128,7 +128,7 @@ async function start(config) {
 
     const client = startMqtt(config.mqtt);
 
-    entityBuilder({store, client, deviceServer});
+    entityBuilder({config, store, client, deviceServer});
 }
 
 async function initStore(config) {
